@@ -6,8 +6,8 @@ import { Object, Property } from 'fabric-contract-api';
 
 @Object()
 export class <%= assetPascalCase %> {
-
     @Property()
-    public value: string;
-
+    <%  for (let structElement of structElements){ %>
+         <%= structElement.dataName %> : <%= structElement.dataType %>;
+    <% } %>   
 }

@@ -16,13 +16,15 @@ export class <%= assetPascalCase %>Contract extends Contract {
     }
 
     @Transaction()
-    public async create<%= assetPascalCase %>(ctx: Context, <%= assetCamelCase %>Id: string, value: string): Promise<void> {
+    public async create<%= assetPascalCase %>(ctx: Context, <%= assetCamelCase %>Id: string, <%  for (let structElement of structElements){ %><%= structElement.dataName %> : <%= structElement.dataType %>, <% } %>): Promise<void> {
         const exists: boolean = await this.<%= assetCamelCase %>Exists(ctx, <%= assetCamelCase %>Id);
         if (exists) {
             throw new Error(`The <%= assetSpaceSeparator %> ${<%= assetCamelCase %>Id} already exists`);
         }
         const <%= assetCamelCase %>: <%= assetPascalCase %> = new <%= assetPascalCase %>();
-        <%= assetCamelCase %>.value = value;
+        <%  for (let structElement of structElements){ %>
+        <%= assetCamelCase %>.<%= structElement.dataName %> = <%= structElement.dataName %>;
+        <% } %>
         const buffer: Buffer = Buffer.from(JSON.stringify(<%= assetCamelCase %>));
         await ctx.stub.putState(<%= assetCamelCase %>Id, buffer);
     }
@@ -40,13 +42,15 @@ export class <%= assetPascalCase %>Contract extends Contract {
     }
 
     @Transaction()
-    public async update<%= assetPascalCase %>(ctx: Context, <%= assetCamelCase %>Id: string, newValue: string): Promise<void> {
+    public async update<%= assetPascalCase %>(ctx: Context, <%= assetCamelCase %>Id: string, <%  for (let structElement of structElements){ %><%= structElement.dataName %> : <%= structElement.dataType %>, <% } %>): Promise<void> {
         const exists: boolean = await this.<%= assetCamelCase %>Exists(ctx, <%= assetCamelCase %>Id);
         if (!exists) {
             throw new Error(`The <%= assetSpaceSeparator %> ${<%= assetCamelCase %>Id} does not exist`);
         }
         const <%= assetCamelCase %>: <%= assetPascalCase %> = new <%= assetPascalCase %>();
-        <%= assetCamelCase %>.value = newValue;
+        <%  for (let structElement of structElements){ %>
+        <%= assetCamelCase %>.<%= structElement.dataName %> = <%= structElement.dataName %>;
+        <% } %>
         const buffer: Buffer = Buffer.from(JSON.stringify(<%= assetCamelCase %>));
         await ctx.stub.putState(<%= assetCamelCase %>Id, buffer);
     }

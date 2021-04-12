@@ -1,6 +1,9 @@
 /*
  * <%= spdxAndLicense // SPDX-License-Identifier: Apache-2.0 %>
  */
+/*
+
+TODO:Implement tests
 
 import { Context } from 'fabric-contract-api';
 import { ChaincodeStub, ClientIdentity } from 'fabric-shim';
@@ -101,3 +104,4 @@ describe('<%= assetPascalCase %>Contract', () => {
     });
 
 });
+*/
