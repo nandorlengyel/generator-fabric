@@ -122,7 +122,7 @@ module.exports = class extends Generator {
             when: () => !this.options.asset
         }, {
             type: 'input',
-            name: 'IDL',
+            name: 'idl',
             message: 'Please specify the IDL file:',
             when: () => !this.options.idl
         }];
