@@ -69,9 +69,13 @@ module.exports = class extends Generator {
         Object.assign(this.options, answers);
 
         this.options.pubContractsArray = new Array();
+        this.options.pubContracts = this.options.pubContracts.replace("[","");
+        this.options.pubContracts = this.options.pubContracts.replace("]","");
         this.options.pubContractsArray = this.options.pubContracts.split(',');
 
         this.options.subContractsArray = new Array();
+        this.options.subContracts = this.options.subContracts.replace("[","");
+        this.options.subContracts = this.options.subContracts.replace("]","");
         this.options.subContractsArray = this.options.subContracts.split(',');
     }
 
