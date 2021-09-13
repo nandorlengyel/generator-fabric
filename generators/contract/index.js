@@ -284,20 +284,20 @@ module.exports = class extends Generator {
 
     }
 
-    async install() {
-        if (this.options.language.endsWith('script')) {
-            if (this.options['skip-install'] !== true) {
-                this.installDependencies({
-                    bower: false,
-                    npm: true
-                });
-            }
-        } else if (this.options.language.startsWith('go')) {
-            console.log('Please run  \'go mod vendor\' to get the required go modules prior to installing on your peer');
-        } else {
-            console.log('Please run  \'./gradlew clean build shadowJar\' to build the Java/Kotlin Smart Contract');
-        }
-    }
+    // async install() {
+    //     if (this.options.language.endsWith('script')) {
+    //         if (this.options['skip-install'] !== true) {
+    //             this.installDependencies({
+    //                 bower: false,
+    //                 npm: true
+    //             });
+    //         }
+    //     } else if (this.options.language.startsWith('go')) {
+    //         console.log('Please run  \'go mod vendor\' to get the required go modules prior to installing on your peer');
+    //     } else {
+    //         console.log('Please run  \'./gradlew clean build shadowJar\' to build the Java/Kotlin Smart Contract');
+    //     }
+    // }
 
     _getDestination() {
         return (this.options.destination) ? (this.destinationRoot(this.options.destination)) : ((this.destinationRoot()));

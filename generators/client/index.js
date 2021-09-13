@@ -16,50 +16,40 @@ module.exports = class extends Generator {
 
     async prompting() {
 
-        const questions = [{
-                type: 'input',
-                name: 'name',
-                message: 'Please specify the client name:',
-                default: path.basename(process.cwd()),
-                when: () => !this.options.name
-            }, {
+        const questions = [ {
                 type: 'input',
                 name: 'channel',
                 message: 'Please specify the channel name:',
-                default: path.basename(process.cwd()),
+                default: 'my-channel',
                 when: () => !this.options.name
             }, {
                 type: 'input',
                 name: 'networkConfigPath',
                 message: 'Please specify the network config file path:',
-                default: path.basename(process.cwd()),
                 when: () => !this.options.name
             }, {
                 type: 'input',
-                name: 'identityPath',
+                name: 'walletPath',
                 message: 'Please specify the identity file path:',
-                default: path.basename(process.cwd()),
+                default: 'wallet',
                 when: () => !this.options.name
             },
             {
                 type: 'input',
                 name: 'identity',
                 message: 'Please specify the identity name:',
-                default: path.basename(process.cwd()),
                 when: () => !this.options.name
             },
             {
                 type: 'input',
                 name: 'pubContracts',
                 message: 'Please specify the publisher contracts:',
-                default: path.basename(process.cwd()),
                 when: () => !this.options.name
             },
             {
                 type: 'input',
                 name: 'subContracts',
                 message: 'Please specify the subscriber contracts:',
-                default: path.basename(process.cwd()),
                 when: () => !this.options.name
             }
         ];
@@ -89,23 +79,32 @@ module.exports = class extends Generator {
     async writing() {
         console.log('Generating files...');
 
-        this.fs.copyTpl(this.templatePath(``), this._getDestination(), this.options, undefined, {
-            globOptions: {
-                dot: true
-            }
-        });
+        this.options.subContractsArray.forEach(subContract => {
+            this.options.actualContract = subContract;
+            this.fs.copyTpl(this.templatePath(`subscriber`), this._getDestination()+'/'+subContract, this.options, undefined, {
+                globOptions: {
+                    dot: true
+                }
+            });
+        }); 
 
+        this.options.pubContractsArray.forEach(pubContract => {
+            this.options.actualContract = pubContract;
+            this.fs.copyTpl(this.templatePath(`publisher`), this._getDestination()+'/'+pubContract, this.options, undefined, {
+                globOptions: {
+                    dot: true
+                }
+            });
+        });
 
     }
 
-    async install() {
-
-        this.installDependencies({
-            bower: false,
-            npm: true
-        });
-
-    }
+    // async install() {
+    //     this.installDependencies({
+    //         bower: false,
+    //         npm: true
+    //     });
+    // }
 
     _getDestination() {
         return (this.options.destination) ? (this.destinationRoot(this.options.destination)) : ((this.destinationRoot()));
